@@ -55,6 +55,9 @@ const itemSchema = new mongoose.Schema({
   path: String,
 });
 
+// Create a model for items in the museum.
+const Item = mongoose.model('Item', itemSchema);
+
 app.post('/api/photos', upload.single('photo'), async (req, res) => {
   // Just a safety check
   if (!req.file) {
@@ -64,9 +67,6 @@ app.post('/api/photos', upload.single('photo'), async (req, res) => {
     path: "/images/" + req.file.filename
   });
 });
-
-// Create a model for items in the museum.
-const Item = mongoose.model('Item', itemSchema);
 
 
 app.listen(3000, () => console.log('Server listening on port 3000!'));

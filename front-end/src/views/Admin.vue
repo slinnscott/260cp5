@@ -1,47 +1,26 @@
 <template>
 <div>
   <h1>The Admin Page!</h1>
-  <div class="heading">
-      <div class="circle">2</div>
-      <h2>Edit/Delete an Item</h2>
+    <div class="heading">
+      <div class="circle">1</div>
+      <h2>Add an Item</h2>
     </div>
-    <div class="edit">
+    <div class="add">
       <div class="form">
-        <input v-model="findTitle" placeholder="Search">
-        <div class="suggestions" v-if="suggestions.length > 0">
-          <div class="suggestion" v-for="s in suggestions" :key="s.id" @click="selectItem(s)">{{s.title}}
-          </div>
-        </div>
-      </div>
-      <div class="upload" v-if="findItem">
-        <input v-model="findItem.title">
+        <input v-model="title" placeholder="Title">
         <p></p>
-        <img :src="findItem.path" />
+        <input type="file" name="photo" @change="fileChanged">
+        <button @click="upload">Upload</button>
       </div>
-      <div class="actions" v-if="findItem">
-        <button @click="deleteItem(findItem)">Delete</button>
+      <div class="upload" v-if="addItem">
+        <h2>{{addItem.title}}</h2>
+        <img :src="addItem.path" />
       </div>
     </div>
 </div>
 </template>
 
 <style scoped>
-/* Suggestions */
-.suggestions {
-  width: 200px;
-  border: 1px solid #ccc;
-}
-
-.suggestion {
-  min-height: 20px;
-}
-
-.suggestion:hover {
-  background-color: #5BDEFF;
-  color: #fff;
-}
-
-
 .image h2 {
   font-style: italic;
   font-size: 1em;
@@ -107,19 +86,7 @@ export default {
       title: "",
       file: null,
       addItem: null,
-      items: [],
-      findTitle: "",
-      findItem: null,
     }
-  },
-  computed: {
-    suggestions() {
-      let items = this.items.filter(item => item.title.toLowerCase().startsWith(this.findTitle.toLowerCase()));
-      return items.sort((a, b) => a.title > b.title);
-    }
-  },
-  created() {
-    this.getItems();
   },
   methods: {
     fileChanged(event) {
@@ -139,30 +106,6 @@ export default {
         console.log(error);
       }
     },
-    async getItems() {
-      try {
-        let response = await axios.get("/api/items");
-        this.items = response.data;
-        return true;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    selectItem(item) {
-      this.findTitle = "";
-      this.findItem = item;
-    },
-    async deleteItem(item) {
-      try {
-        await axios.delete("/api/items/" + item._id);
-        this.findItem = null;
-        this.getItems();
-        return true;
-      } catch (error) {
-        console.log(error);
-      }
-    },
   },
-
 }
 </script>

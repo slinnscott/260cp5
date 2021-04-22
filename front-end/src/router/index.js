@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Admin from '../views/Admin.vue'
+import Add from '../views/add.vue'
+import Remove from '../views/remove.vue'
+import Edit from '../views/edit.vue'
+import Teams from '../views/teams.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -11,10 +15,30 @@ const routes = [{
     component: Home
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: Admin
-  }
+    path: '/add',
+    name: 'add',
+    component: Add
+  },
+  {
+    path: '/teams',
+    name: 'teams',
+    component: Teams
+  },
+  {
+    path: '/edit',
+    name: 'edit',
+    component: Edit
+  },
+  {
+    path: '/remove',
+    name: 'remove',
+    component: Remove
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
 ]
 
 const router = new VueRouter({
